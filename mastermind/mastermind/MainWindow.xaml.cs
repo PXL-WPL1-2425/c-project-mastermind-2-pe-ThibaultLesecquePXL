@@ -27,6 +27,7 @@ namespace mastermind
         int attempts = 0;
         int score = 100;
         bool isPlaying = true;
+        string username = "";
 
         DispatcherTimer timer = new DispatcherTimer();
         DateTime startTime;
@@ -34,8 +35,6 @@ namespace mastermind
         public MainWindow()
         {
             InitializeComponent();
-            ComboBoxItemsInit();
-            NewGame();
         }
 
         private void PickColors()
@@ -261,5 +260,16 @@ namespace mastermind
             this.Close();
         }
 
+        private void ContinueButton_Click(object sender, RoutedEventArgs e)
+        {
+            username = usernameTextBox.Text;
+            if (username.Length > 0)
+            {
+                usernameUIGrid.Visibility = Visibility.Hidden;
+                gameUIGrid.Visibility = Visibility.Visible;
+                ComboBoxItemsInit();
+                NewGame();
+            }
+        }
     }
 }
