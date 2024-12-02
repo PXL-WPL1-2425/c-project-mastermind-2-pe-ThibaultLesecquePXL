@@ -27,8 +27,9 @@ namespace mastermind
         string[,] highscoresList = new string[15, 3];
 
         int attempts = 0;
+        int maxattempts = 10;
         int score = 100;
-        bool isPlaying = true;
+        bool isPlaying = false;
         string username = "";
 
         DispatcherTimer timer = new DispatcherTimer();
@@ -129,7 +130,7 @@ namespace mastermind
             attempts += 1;
             this.Title = $"Poging {attempts}";
 
-            if (attempts >= 10)
+            if (attempts >= maxattempts)
             {
                 isPlaying = false;
                 EndGame(false);
@@ -263,6 +264,7 @@ namespace mastermind
 
         private void MnuNew_Click(object sender, System.EventArgs e)
         {
+            settingsUIGrid.Visibility = Visibility.Hidden;
             gameUIGrid.Visibility = Visibility.Hidden;
             usernameUIGrid.Visibility = Visibility.Visible;
         }
@@ -285,6 +287,20 @@ namespace mastermind
             this.Close();
         }
 
+        private void MnuSettings_Click(object sender, System.EventArgs e)
+        {
+            if (!isPlaying)
+            {
+                gameUIGrid.Visibility = Visibility.Hidden;
+                usernameUIGrid.Visibility = Visibility.Hidden;
+                settingsUIGrid.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                MessageBox.Show("De instellingen kunnen tijdens het spelen niet geopend worden!", "Let op!", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
         private void ContinueButton_Click(object sender, RoutedEventArgs e)
         {
             username = usernameTextBox.Text;
@@ -294,6 +310,27 @@ namespace mastermind
                 gameUIGrid.Visibility = Visibility.Visible;
                 ComboBoxItemsInit();
                 NewGame();
+            }
+        }
+
+        private void AmountAttemptsButton_Click(object sender, RoutedEventArgs e)
+        {
+            bool result = int.TryParse(amountAttemptsTextBox.Text, out int tempint);
+            if (result)
+            {
+                if (tempint > 3 && tempint < 20)
+                {
+                    maxattempts = tempint;
+                    MessageBox.Show($"De hoeveelheid pogingen werd aangepast naar {maxattempts}", "Instellingen", MessageBoxButton.OK);
+                }
+                else
+                {
+                    MessageBox.Show($"De hoeveelheid pogingen moet tussen 3 en 20 liggen.", "Instellingen", MessageBoxButton.OK);
+                }
+            }
+            else
+            {
+                MessageBox.Show($"De ingevoerde waarde moet een getal zijn!", "Instellingen", MessageBoxButton.OK);
             }
         }
     }

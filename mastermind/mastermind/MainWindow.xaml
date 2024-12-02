@@ -15,14 +15,13 @@
                 <MenuItem Header="Afsluiten" Click="MnuExit_Click"/>
             </MenuItem>
             <MenuItem Header="Instellingen">
-                <MenuItem Header="Aantal pogingen"/>
+                <MenuItem Header="Aantal pogingen" Click="MnuSettings_Click"/>
             </MenuItem>
         </Menu>
-        <Grid Name="usernameUIGrid">
+        <Grid Name="usernameUIGrid" Visibility="Visible">
             <TextBox Name="usernameTextBox" HorizontalAlignment="Center" Margin="0,161,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="300" Height="40"/>
             <Label Content="Choose name" HorizontalAlignment="Center" Margin="0,130,0,0" VerticalAlignment="Top"/>
             <Button Name="continueButton" Content="Continue" HorizontalAlignment="Center" Margin="0,217,0,0" VerticalAlignment="Top" Height="20" Width="192" Click="ContinueButton_Click"/>
-
         </Grid>
         <Grid Name="gameUIGrid" Visibility="Hidden">
             <ComboBox Name="color1ComboBox" HorizontalAlignment="Left" Margin="50,231,0,0" VerticalAlignment="Top" Width="100" SelectionChanged="ComboBox_SelectionChanged"/>
@@ -37,6 +36,11 @@
             <TextBox Name="debugTextBox" HorizontalAlignment="Center" Margin="0,285,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="300" Height="50" Visibility="hidden"/>
             <Label Name="timerLabel" Content="00" HorizontalAlignment="Center" Margin="0,33,0,0" VerticalAlignment="Top" FontSize="25"/>
             <Label Name="scoreLabel" Content="Current score: 100" HorizontalAlignment="Left" Margin="50,15,0,0" VerticalAlignment="Top"/>
+        </Grid>
+        <Grid Name="settingsUIGrid" Visibility="Hidden">
+            <Label Content="Hoeveelheid pogingen:" HorizontalAlignment="Center" Margin="0,147,0,0" VerticalAlignment="Top"/>
+            <TextBox Name="amountAttemptsTextBox" HorizontalAlignment="Center" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="250" Height="35"/>
+            <Button Name="amountAttemptsButton" Content="Change" HorizontalAlignment="Center" Margin="0,259,0,0" VerticalAlignment="Top" Height="31" Width="120" Click="AmountAttemptsButton_Click"/>
         </Grid>
     </Grid>
 </Window>
