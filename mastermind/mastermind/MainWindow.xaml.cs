@@ -18,11 +18,13 @@ namespace mastermind
     /// </summary>
     public partial class MainWindow : Window
     {
+        StringBuilder sb = new StringBuilder();
         Random rnd = new Random();
 
         SolidColorBrush[] colorSelection = [Brushes.Red, Brushes.Blue, Brushes.Green, Brushes.White, Brushes.Yellow, Brushes.Orange];
         string[] colorSelectionString = ["Red", "Blue", "Green", "White", "Yellow", "Orange"];
         int[] colorsRandom = new int[4];
+        string[,] highscoresList = new string[15, 3];
 
         int attempts = 0;
         int score = 100;
@@ -232,6 +234,16 @@ namespace mastermind
             if (hasWon)
             {
                 MessageBoxResult Result = MessageBox.Show($"Code is gekraakt in {attempts} pogingen.", "WINNER", MessageBoxButton.OK);
+                for (int i = 0; i < highscoresList.GetLength(0); i++)
+                {
+                    if (highscoresList[i, 0] == null) 
+                    {
+                        highscoresList[i, 0] = username;
+                        highscoresList[i, 1] = attempts.ToString();
+                        highscoresList[i, 2] = score.ToString();
+                        break;
+                    }
+                }
             }
             else if (!hasWon)
             {
@@ -251,12 +263,21 @@ namespace mastermind
 
         private void MnuNew_Click(object sender, System.EventArgs e)
         {
-            NewGame();
+            gameUIGrid.Visibility = Visibility.Hidden;
+            usernameUIGrid.Visibility = Visibility.Visible;
         }
 
         private void MnuHighscores_Click(object sender, System.EventArgs e)
         {
-            MessageBox.Show("No highscores", "Mastermind highscores", MessageBoxButton.OK);
+            for (int i = 0; i < highscoresList.GetLength(0); i++)
+            {
+                if (highscoresList[i, 0] != null)
+                {
+                    sb.AppendLine($"{highscoresList[i, 0]} - {highscoresList[i, 1]} pogingen - {highscoresList[i, 2]}/100");
+                }
+            }
+            MessageBox.Show(sb.ToString(), "Mastermind highscores", MessageBoxButton.OK);
+            sb.Clear();
         }
 
         private void MnuExit_Click(object sender, System.EventArgs e)
