@@ -81,17 +81,23 @@ namespace mastermind
         {
             if (isPlaying)
             {
-                CheckComboBox(color1Ellipse, color1ComboBox, 0);
-                CheckComboBox(color2Ellipse, color2ComboBox, 1);
-                CheckComboBox(color3Ellipse, color3ComboBox, 2);
-                CheckComboBox(color4Ellipse, color4ComboBox, 3);
+                bool check1 = CheckComboBox(color1Ellipse, color1ComboBox, 0);
+                bool check2 = CheckComboBox(color2Ellipse, color2ComboBox, 1);
+                bool check3 = CheckComboBox(color3Ellipse, color3ComboBox, 2);
+                bool check4 = CheckComboBox(color4Ellipse, color4ComboBox, 3);
                 UpdateAttempts();
                 StartCountdown();
+                scoreLabel.Content = $"Current score: {score}";
+
+                if (check1 && check2 && check3 && check4)
+                {
+                    EndGame(true);
+                }
             }
             
         }
 
-        private void CheckComboBox(Ellipse elipse, ComboBox combobox, int number)
+        private bool CheckComboBox(Ellipse elipse, ComboBox combobox, int number)
         {
             elipse.Stroke = Brushes.Black;
             elipse.StrokeThickness = 1;
@@ -100,19 +106,20 @@ namespace mastermind
             {
                 elipse.Stroke = Brushes.DarkRed;
                 elipse.StrokeThickness = 5;
+                return true;
             }
             else if (colorsRandom.Contains(combobox.SelectedIndex))
             {
                 elipse.Stroke = Brushes.Wheat;
                 elipse.StrokeThickness = 5;
                 score -= 1;
+                return false;
             }
             else
             {
                 score -= 2;
+                return false;
             }
-
-            scoreLabel.Content = $"Current score: {score}";
         }
 
         private void UpdateAttempts()
@@ -193,6 +200,19 @@ namespace mastermind
 
         private void NewGame()
         {
+            color1Ellipse.Stroke = Brushes.Black;
+            color1Ellipse.StrokeThickness = 1;
+            color1Ellipse.Fill = Brushes.Transparent;
+            color2Ellipse.Stroke = Brushes.Black;
+            color2Ellipse.StrokeThickness = 1;
+            color2Ellipse.Fill = Brushes.Transparent;
+            color3Ellipse.Stroke = Brushes.Black;
+            color3Ellipse.StrokeThickness = 1;
+            color3Ellipse.Fill = Brushes.Transparent;
+            color4Ellipse.Stroke = Brushes.Black;
+            color4Ellipse.StrokeThickness = 1;
+            color4Ellipse.Fill = Brushes.Transparent;
+
             attempts = 0;
             isPlaying = true;
 
@@ -211,27 +231,11 @@ namespace mastermind
 
             if (hasWon)
             {
-                MessageBoxResult Result = MessageBox.Show($"Code is gekraakt in {attempts} pogingen. Wil je nog eens?", "WINNER", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (Result == MessageBoxResult.Yes)
-                {
-                    NewGame();
-                }
-                else if (Result == MessageBoxResult.No)
-                {
-                    this.Close();
-                }
+                MessageBoxResult Result = MessageBox.Show($"Code is gekraakt in {attempts} pogingen.", "WINNER", MessageBoxButton.OK);
             }
             else if (!hasWon)
             {
-                MessageBoxResult Result = MessageBox.Show($"You failed! De correcte code was {colorSelectionString[colorsRandom[0]]}, {colorSelectionString[colorsRandom[1]]}, {colorSelectionString[colorsRandom[2]]}, {colorSelectionString[colorsRandom[3]]}. Nog eens proberen?", "FAILED", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (Result == MessageBoxResult.Yes)
-                {
-                    NewGame();
-                }
-                else if (Result == MessageBoxResult.No)
-                {
-                    this.Close();
-                }
+                MessageBoxResult Result = MessageBox.Show($"You failed! De correcte code was {colorSelectionString[colorsRandom[0]]}, {colorSelectionString[colorsRandom[1]]}, {colorSelectionString[colorsRandom[2]]}, {colorSelectionString[colorsRandom[3]]}.", "FAILED", MessageBoxButton.OK);
             }
         }
 
